@@ -1,6 +1,7 @@
 <?php
 
-/** @var \Laravel\Lumen\Routing\Router $router */
+
+use FastRoute\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,16 @@ $router->group(['prefix' => 'auth'], function () use ($router){
     $router->post("/register", "AuthController@register");
     $router->post("/login", "AuthController@login");
 });
+
+$router->group(['middleware' => ['auth']], function ($router)
+{
+    $router->get('/posts', 'PostsController@index');
+    $router->post('/posts', 'PostsController@store');
+    $router->get('/post/{id}', 'PostsController@detail');
+    $router->put('/post/{id}', 'PostsController@update');
+    $router->delete('post/{id}', 'PostsController@delete');
+    
+});
+
+
 
