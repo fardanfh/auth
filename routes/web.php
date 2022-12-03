@@ -26,12 +26,14 @@ $router->group(['prefix' => 'auth'], function () use ($router){
 $router->group(['middleware' => ['auth']], function ($router)
 {
     $router->get('/posts', 'PostsController@index');
-    $router->post('/posts', 'PostsController@store');
     $router->get('/post/{id}', 'PostsController@detail');
+    $router->post('/posts', 'PostsController@store');
     $router->put('/post/{id}', 'PostsController@update');
     $router->delete('post/{id}', 'PostsController@delete');
-    
 });
+
+$router->get('/public/posts', 'PublicController@index');
+$router->get('/public/post/{id}', 'PublicController@detail');
 
 
 
