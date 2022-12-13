@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Profile;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract,JWTSubject
 {
@@ -40,6 +43,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function post()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+
+    public function comment()
+    {
+        return $this->hasMany('App\Models\Comment');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile');
     }
     
 

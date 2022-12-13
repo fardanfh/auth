@@ -23,9 +23,9 @@ class PostsController extends Controller
         }
 
         if (Auth::user()->role === 'admin') {
-            $posts = Post::OrderBy('id', 'DESC')->paginate(2)->toArray();
+            $posts = Post::with('user')->with('comment')->OrderBy('id', 'DESC')->paginate(2)->toArray();
         }else{
-            $posts = Post::Where(['user_id' => Auth::user()->id])->OrderBy("id", "DESC")->paginate(2)->toArray();
+            $posts = Post::with('user')->with('comment')->Where(['user_id' => Auth::user()->id])->OrderBy("id", "DESC")->paginate(2)->toArray();
         }
 
         if ($acceptHeader === 'application/json' || $acceptHeader === 'application/xml') {
@@ -129,7 +129,10 @@ class PostsController extends Controller
                 ], 403);
             }
 
-            $post = Post::find($id);
+            $post = Post::with(['user' => function($query)
+            {
+                $query->select('id','name');
+            }])->find($id);
 
             if ($acceptHeader === 'application/json') {
                  return response()->json($post, 200);

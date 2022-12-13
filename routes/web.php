@@ -35,5 +35,8 @@ $router->group(['middleware' => ['auth']], function ($router)
 $router->get('/public/posts', 'PublicController@index');
 $router->get('/public/post/{id}', 'PublicController@detail');
 
+$router->get('/public/comments', 'CommentsController@index');
+$router->post('/public/comments', 'CommentsController@store');
+
 
 

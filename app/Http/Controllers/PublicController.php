@@ -14,7 +14,7 @@ class PublicController extends Controller
         
         $acceptHeader = $request->header('Accept');
 
-        $posts = Post::OrderBy('id', 'DESC')->paginate(2)->toArray();
+        $posts = Post::with('comment')->OrderBy('id', 'ASC')->paginate(2)->toArray();
 
         if ($acceptHeader === 'application/json' || $acceptHeader === 'application/xml') {
             
@@ -57,7 +57,10 @@ class PublicController extends Controller
 
         if ($acceptHeader === 'application/json' || $acceptHeader === 'application/xml') {
 
-            $post = Post::find($id);
+            $post = Post::with(['user' => function($query)
+            {
+                $query->select('id','name');
+            }])->find($id);
 
             if ($acceptHeader === 'application/json') {
                  return response()->json($post, 200);
