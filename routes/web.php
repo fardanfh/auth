@@ -30,10 +30,17 @@ $router->group(['middleware' => ['auth']], function ($router)
     $router->post('/posts', 'PostsController@store');
     $router->put('/post/{id}', 'PostsController@update');
     $router->delete('post/{id}', 'PostsController@delete');
+    $router->get('/posts/image/{imageName}', 'PostsController@image');
+    $router->get('/posts/video/{videoName}', 'PostsController@video');
+    $router->post('/profiles', 'ProfilesController@store');
+    $router->get('/profiles/{userId}', 'ProfilesController@show');
+    $router->get('/profiles/image/{imageName}', 'ProfilesController@image');
+
 });
 
 $router->get('/public/posts', 'PublicController@index');
 $router->get('/public/post/{id}', 'PublicController@detail');
+$router->post('/public/posts-create', 'PublicController@insert');
 
 $router->get('/public/comments', 'CommentsController@index');
 $router->post('/public/comments', 'CommentsController@store');

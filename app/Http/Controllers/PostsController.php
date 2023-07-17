@@ -84,6 +84,51 @@ class PostsController extends Controller
             
             $post = Post::create($input);
 
+            $post = Post::where('user_id', Auth::user()->id)->first();
+
+            if (!$post) {
+                $post = new Post;
+                $post->user_id = Auth::user()->id;
+            }
+
+            $post->title = $request->input('title');
+            $post->content = $request->input('content');
+            $post->status = $request->input('status');
+
+            if ($request->hasFile('image_post')) {
+
+                $title = str_replace(' ','_',$request->input('title'));
+
+                $imageName = Auth::user()->id . '_' . $title;
+                $request->file('image_post')->move(storage_path('uploads/image_post'), $imageName);
+    
+                $current_image_path = storage_path('avatar') . '/' . $post->image_post;
+                if (file_exists($current_image_path)) {
+                    unlink($current_image_path);
+                }
+    
+                $post->image_post = $imageName;
+    
+            }
+
+            if ($request->hasFile('video_post')) {
+
+                $title = str_replace(' ','_',$request->input('title'));
+
+                $videoName = Auth::user()->id . '_' . $title . time();
+                $request->file('video_post')->move(storage_path('uploads/video_post'), $videoName);
+    
+                $current_video_path = storage_path('video') . '/' . $post->video_post;
+                if (file_exists($current_video_path)) {
+                    unlink($current_video_path);
+                }
+    
+                $post->video_post = $videoName;
+    
+            }
+
+            $post->save();
+
             if (Gate::denies('create-post')) {
                 return response()->json([
                     'success' => false,
@@ -104,7 +149,7 @@ class PostsController extends Controller
                 $xmlItem->addChild('content', $post->content);
                 $xmlItem->addChild('user_id', $post->user_id);
                 $xmlItem->addChild('created_at', $post->created_at);
-                $xmlItem->addChild('update_at', $post->update_at);
+                $xmlItem->addChild('updated_at', $post->updated_at);
                 
                 return $xml->asXML();
             }
@@ -271,5 +316,35 @@ class PostsController extends Controller
         }
 
     }
+
+    public function image($imageName)
+    {
+        $imagePath = storage_path('uploads/image_post') . '/' . $imageName;
+        if (file_exists($imagePath)) {
+            $file = file_get_contents($imagePath);
+            return response($file, 200)->header('Content-Type', 'image/jpeg');
+        }
+
+        return response()->json(array(
+            'message' => "Image not found"
+        ), 401);
+
+    }
+
+    public function video($videoName)
+    {
+        $videoPath = storage_path('uploads/video_post') . '/' . $videoName;
+        if (file_exists($videoPath)) {
+            $file = file_get_contents($videoPath);
+            return response($file, 200)->header('Content-Type', 'video/mp4');
+        }
+
+        return response()->json(array(
+            'message' => "Video not found"
+        ), 401);
+
+    }
+
     
+        
 }

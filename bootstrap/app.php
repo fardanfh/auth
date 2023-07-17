@@ -96,6 +96,8 @@ $app->configure('app');
 
  $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
  $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+ $app->register(Mtownsend\ResponseXml\Providers\ResponseXmlServiceProvider::class);
+
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

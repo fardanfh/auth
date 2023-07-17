@@ -15,22 +15,24 @@ class CommentsController extends Controller
         
         $acceptHeader = $request->header('Accept');
 
-        $comments = Comment::with('user')->OrderBy("id", "ASC")->paginate(2)->toArray();
+        $comments = Comment::all();
+
+        //$comments = Comment::with('user')->OrderBy("id", "ASC")->paginate(2)->toArray();
 
         if ($acceptHeader === 'application/json' || $acceptHeader === 'application/xml') {
             
-            $response = [
-                "total_count" => $comments["total"],
-                "limit" => $comments["per_page"],
-                "pagination" => [
-                    "next_page" => $comments["next_page_url"],
-                    "current_page" => $comments["current_page"]
-                ],
-                "data" => $comments["data"],
-            ];
+            // $response = [
+            //     "total_count" => $comments["total"],
+            //     "limit" => $comments["per_page"],
+            //     "pagination" => [
+            //         "next_page" => $comments["next_page_url"],
+            //         "current_page" => $comments["current_page"]
+            //     ],
+            //     "data" => $comments["data"],
+            // ];
 
             if ($acceptHeader === 'application/json') {
-                return response()->json($response, 200);
+                return response()->json($comments, 200);
             } else {
                 $xml = new \SimpleXMLElement('<comments/>');
                 foreach ($comments->items('data') as $item) {
