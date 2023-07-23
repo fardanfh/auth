@@ -22,26 +22,32 @@ class PostsController extends Controller
             ], 403);
         }
 
+        // if (Auth::user()->role === 'admin') {
+        //     $posts = Post::with('user')->with('comment')->OrderBy('id', 'DESC')->paginate(2)->toArray();
+        // }else{
+        //     $posts = Post::with('user')->with('comment')->Where(['user_id' => Auth::user()->id])->OrderBy("id", "DESC")->paginate(2)->toArray();
+        // }
+
         if (Auth::user()->role === 'admin') {
-            $posts = Post::with('user')->with('comment')->OrderBy('id', 'DESC')->paginate(2)->toArray();
+            $posts = Post::where('user_id', Auth::user()->id)->get();
         }else{
-            $posts = Post::with('user')->with('comment')->Where(['user_id' => Auth::user()->id])->OrderBy("id", "DESC")->paginate(2)->toArray();
+            $posts = Post::where('user_id', Auth::user()->id)->get();
         }
 
         if ($acceptHeader === 'application/json' || $acceptHeader === 'application/xml') {
             
-            $response = [
-                "total_count" => $posts["total"],
-                "limit" => $posts["per_page"],
-                "pagination" => [
-                    "next_page" => $posts["next_page_url"],
-                    "current_page" => $posts["current_page"]
-                ],
-                "data" => $posts["data"],
-            ];
+            // $response = [
+            //     "total_count" => $posts["total"],
+            //     "limit" => $posts["per_page"],
+            //     "pagination" => [
+            //         "next_page" => $posts["next_page_url"],
+            //         "current_page" => $posts["current_page"]
+            //     ],
+            //     "data" => $posts["data"],
+            // ];
 
             if ($acceptHeader === 'application/json') {
-                return response()->json($response, 200);
+                return response()->json($posts, 200);
             } else {
                 $xml = new \SimpleXMLElement('<posts/>');
                 foreach ($posts->items('data') as $item) {
@@ -84,9 +90,9 @@ class PostsController extends Controller
             
             $post = Post::create($input);
 
-            $post = Post::where('user_id', Auth::user()->id)->first();
+            $posts = Post::where('user_id', Auth::user()->id)->first();
 
-            if (!$post) {
+            if (!$posts) {
                 $post = new Post;
                 $post->user_id = Auth::user()->id;
             }
@@ -241,11 +247,7 @@ class PostsController extends Controller
 
             if ($acceptHeader === 'application/json') {
 
-                if ($contentTypeHeader === 'application/json') {
-                    return response()->json($post, 200);
-                }else{
-                     return response('Unsupported Media Type', 415);
-                }
+                return response()->json($post, 200);
 
                 
             } else if ($contentTypeHeader === 'application/xml') {

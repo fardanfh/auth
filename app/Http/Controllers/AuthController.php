@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class AuthController extends Controller{
+class AuthController extends Controller
+{
 
     public function register(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed'
@@ -20,7 +21,7 @@ class AuthController extends Controller{
 
         $input = $request->all();
 
-        $validationRules =[
+        $validationRules = [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed'
@@ -40,7 +41,6 @@ class AuthController extends Controller{
         $user->save();
 
         return response()->json($user, 200);
-
     }
 
     public function login(Request $request)
@@ -48,7 +48,7 @@ class AuthController extends Controller{
         $input = $request->all();
         $user = User::where('email', $request->input('email'))->first();
 
-        $validationRules =[
+        $validationRules = [
             'email' => 'required|string',
             'password' => 'required|string'
         ];
@@ -59,22 +59,19 @@ class AuthController extends Controller{
             return response()->json($validator->errors(), 400);
         }
 
-        $credentials = $request->only(['email','password']);
+        $credentials = $request->only(['email', 'password']);
 
-        if (! $token = Auth::attempt($credentials)) {
+        if (!$token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60,
+            'expires_in' => Auth::factory()->getTTL() * 120,
             'user_id' => $user->id,
             'nama' => $user->name,
             'email' => $user->email,
         ], 200);
-
     }
-
 }
-    
