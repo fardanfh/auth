@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Dec 25, 2022 at 06:14 PM
+-- Host: 127.0.0.1
+-- Generation Time: Jul 23, 2023 at 10:54 PM
 -- Server version: 10.4.25-MariaDB
--- PHP Version: 8.0.23
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -106,9 +106,9 @@ CREATE TABLE `posts` (
 --
 
 INSERT INTO `posts` (`id`, `title`, `status`, `content`, `user_id`, `created_at`, `updated_at`, `image_post`, `video_post`) VALUES
-(1, 'Ini adalah Title', 'published', 'Ini adalah Content', 5, '2022-12-13 04:43:09', '2022-12-25 10:23:01', '5_Test_Upload_Video', '5_Test_Upload_Video1671637288'),
-(3, 'title by reader', 'draft', 'content by reader', 5, '2022-12-03 12:55:16', '2022-12-03 12:55:16', NULL, NULL),
-(4, 'title by admin', 'draft', 'content by admin', 4, '2022-12-03 12:56:39', '2022-12-03 12:56:39', NULL, NULL);
+(1, 'updated title new against', 'draft', 'sjaskdjasdasd', 5, '2022-12-13 04:43:09', '2023-07-23 12:43:35', '5_Test_Upload_Video', '5_Test_Upload_Video1671637288'),
+(6, 'Kerja bakti ', 'published', 'kerja bakti rw 03', 6, '2023-07-23 14:12:10', '2023-07-23 20:44:28', '6_Duh_lier_kie', NULL),
+(10, 'Seminar ekonomi baik ', 'draft', 'Seminar ekonomi di Indonesia dengan menyediakan makan siang ', 6, '2023-07-23 20:42:02', '2023-07-23 20:42:02', '6_Seminar_ekonomi_baik_', NULL);
 
 -- --------------------------------------------------------
 
@@ -156,9 +156,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Fardan F', 'fardanfh@mail.com', '$2y$10$z/y9sUIEfWCJEor4oe4bsefluToC2ING72XPQFdFV25XGauz8Bp3W', 'reader', '2022-11-15 13:51:51', '2022-11-15 13:51:51'),
+(1, 'Fardan F', 'fardanfh@mail.com', '$2y$10$z/y9sUIEfWCJEor4oe4bsefluToC2ING72XPQFdFV25XGauz8Bp3W', 'editor', '2022-11-15 13:51:51', '2022-11-15 13:51:51'),
 (4, 'Kang Adit', 'adit@mail.com', '$2y$10$xmbW3GBv.PXqg8euNgYfduv5s8iK0kYXPVte2xa6dOYKIarWLwJRq', 'admin', '2022-12-02 15:34:45', '2022-12-02 15:34:45'),
-(5, 'Ilham', 'ilham@mail.com', '$2y$10$wx48XIarkEo.FM1Dj3p5k.k2u0/Amha6cdVMocdpcgwaoM60JhTWu', 'editor', '2022-12-02 15:35:09', '2022-12-02 15:35:09');
+(5, 'Ilham', 'ilham@mail.com', '$2y$10$wx48XIarkEo.FM1Dj3p5k.k2u0/Amha6cdVMocdpcgwaoM60JhTWu', 'editor', '2022-12-02 15:35:09', '2022-12-02 15:35:09'),
+(6, 'Fardin', 'fardin@mail.com', '$2y$10$4so7PicApvy6cezOrtdDfuU8H7IELfwKqeU9ZLepmUevOexPhIiX6', 'editor', '2023-07-23 14:10:32', '2023-07-23 14:10:32'),
+(7, 'Fardan', 'fardan@mail.com', '$2y$10$lX8mJo3q/OTS0.U8GkvKwulh3c0YHwXujn9cwxrX3uyhc4G3XD2/e', 'reader', '2023-07-23 15:55:54', '2023-07-23 15:55:54');
 
 --
 -- Indexes for dumped tables
@@ -231,7 +233,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `profiles`
@@ -243,7 +245,7 @@ ALTER TABLE `profiles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
